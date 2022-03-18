@@ -1,0 +1,35 @@
+1, initialize the package.json file
+2, add the svgs that will be converted to the assets folder.
+    To turn these svgs into reusable react components that's properly cleaned up, we use the svgr library
+3, install svgr - yarn add -D @svgr/cli rimraf
+    rimraf is used to clean up our files
+4, add the following script
+    "svgr": "svgr --icon --title-prop --replace-attr-values '#000000=currentColor' -d src assets"
+
+    src is the output folder while assets is the folder that the initial svgs are in.
+    --icon sets the svg width and height to 1em and makes it possible to to set the size of the icon
+    --title-prop adds the title tag to the svg
+    --replace-attr-values '#000000=currentColor' - this replaces the color to currentColor and makes it possile to change the color using the color attribute
+
+5, running yarn svgr will take the svgs in the assets folder and transform them and put them in the src folder
+6, to bundle the code, we use rollup
+    yarn add -D rollup @rollup/plugin-babel @babel/plugin-transform-runtime 
+    yarn add @babel/runtime
+    yarn add -D @babel/preset-env @babel/preset-react
+
+7, create a rollup.config.js file and add its configurations
+8, add a property to the package.json file called module. this indicates the entry file into the package when published and installed using npm/yarn
+
+note: the pre-build script runs before the build script in the package.json file
+
+9, create a .babelrc file and add its configurations
+10, to see the size of the package generated, we can use rollup-plugin-filesize
+    yarn add -D rollup-plugin-filesize
+11, add the files property to package.json. this specifies the output folder
+    "module": "dist/index.esm.js",
+    "files": ["dist"],
+
+12, to test this package locally, we can navigate to another react app, use yarn pack or npm pack
+    eg npm pack ../../iconsLib (navigate to the icons lib folder)
+    this will generate a file within the react app eg iconsLib-1.0.0.tgz
+    after doing this, run npm install iconsLib-1.0.0.tgz
